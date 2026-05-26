@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 
 interface SorryTranslation {
@@ -14,18 +15,18 @@ interface SorryTranslation {
 
 const TRANSLATIONS: SorryTranslation[] = [
   // Left side of the screen
-  { id: '1', text: 'माफ़ करना', language: 'Hindi', left: '10%', top: '22%', delay: 0.1, rotation: -2, scale: 0.95, flourishType: 'loop' },
-  { id: '2', text: 'ਮਾਫ਼ ਕਰਨਾ', language: 'Punjabi', left: '6%', top: '38%', delay: 0.3, rotation: 3, scale: 0.95, flourishType: 'swirl' },
-  { id: '3', text: 'క్షమించండి', language: 'Telugu', left: '5%', top: '56%', delay: 0.5, rotation: -1, scale: 0.9, flourishType: 'dots' },
-  { id: '4', text: 'மன்னிக்கவும்', language: 'Tamil', left: '9%', top: '72%', delay: 0.7, rotation: 2, scale: 0.9, flourishType: 'wave' },
-  { id: '5', text: 'माफ़ करा', language: 'Marathi', left: '22%', top: '15%', delay: 0.9, rotation: -3, scale: 0.95, flourishType: 'sparkle' },
+  { id: '1', text: 'माफ़ करना', language: 'Hindi', left: '8%', top: '22%', delay: 0.1, rotation: -2, scale: 0.95, flourishType: 'loop' },
+  { id: '2', text: 'ਮਾਫ਼ ਕਰਨਾ', language: 'Punjabi', left: '4%', top: '38%', delay: 0.3, rotation: 3, scale: 0.95, flourishType: 'swirl' },
+  { id: '3', text: 'క్షమించండి', language: 'Telugu', left: '3%', top: '56%', delay: 0.5, rotation: -1, scale: 0.9, flourishType: 'dots' },
+  { id: '4', text: 'மன்னிக்கவும்', language: 'Tamil', left: '7%', top: '72%', delay: 0.7, rotation: 2, scale: 0.9, flourishType: 'wave' },
+  { id: '5', text: 'माफ़ करा', language: 'Marathi', left: '20%', top: '15%', delay: 0.9, rotation: -3, scale: 0.95, flourishType: 'sparkle' },
 
   // Right side of the screen
-  { id: '6', text: 'মাফ করবেন', language: 'Bengali', left: '78%', top: '22%', delay: 0.2, rotation: 3, scale: 0.95, flourishType: 'loop' },
-  { id: '7', text: 'માફ કરિદે', language: 'Gujarati', left: '82%', top: '38%', delay: 0.4, rotation: -2, scale: 0.95, flourishType: 'swirl' },
-  { id: '8', text: 'ಕ್ಷಮಿಸಿ', language: 'Kannada', left: '83%', top: '56%', delay: 0.6, rotation: 1, scale: 0.9, flourishType: 'dots' },
-  { id: '9', text: 'മാപ്പ് ചെയ്യണേ', language: 'Malayalam', left: '79%', top: '72%', delay: 0.8, rotation: -2, scale: 0.9, flourishType: 'wave' },
-  { id: '10', text: 'ਮਾਫ਼ ਕਰਨਾ', language: 'Punjabi - Gurmukhi', left: '66%', top: '15%', delay: 1.0, rotation: 2, scale: 0.95, flourishType: 'sparkle' }
+  { id: '6', text: 'মাফ করবেন', language: 'Bengali', left: '80%', top: '22%', delay: 0.2, rotation: 3, scale: 0.95, flourishType: 'loop' },
+  { id: '7', text: 'માફ કરિદે', language: 'Gujarati', left: '84%', top: '38%', delay: 0.4, rotation: -2, scale: 0.95, flourishType: 'swirl' },
+  { id: '8', text: 'ಕ್ಷಮಿಸಿ', language: 'Kannada', left: '85%', top: '56%', delay: 0.6, rotation: 1, scale: 0.9, flourishType: 'dots' },
+  { id: '9', text: 'മാപ്പ് ചെയ്യണേ', language: 'Malayalam', left: '81%', top: '72%', delay: 0.8, rotation: -2, scale: 0.9, flourishType: 'wave' },
+  { id: '10', text: 'ਮਾਫ਼ ਕਰਨਾ', language: 'Punjabi - Gurmukhi', left: '68%', top: '15%', delay: 1.0, rotation: 2, scale: 0.95, flourishType: 'sparkle' }
 ];
 
 interface LanguageCloudsProps {
@@ -34,6 +35,17 @@ interface LanguageCloudsProps {
 
 export default function LanguageClouds({ isForgiven }: LanguageCloudsProps) {
   if (isForgiven) return null; // Hide apology clouds on success!
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Vector flourish renderer based on type
   const renderFlourish = (type: string) => {
@@ -90,23 +102,23 @@ export default function LanguageClouds({ isForgiven }: LanguageCloudsProps) {
           }}
           initial={{ opacity: 0, scale: 0 }}
           animate={{
-            opacity: 0.85,
-            scale: item.scale,
-            // Majestic screen-wide drifting floating motion (moves everywhere around)
-            x: [0, 20, -15, 25, -20, 0],
-            y: [0, -35, 20, -45, 30, 0],
+            opacity: isMobile ? 0.38 : 0.85,
+            scale: isMobile ? item.scale * 0.58 : item.scale,
+            // Majestic screen-wide drifting floating motion (scaled down on mobile to prevent clutter)
+            x: isMobile ? [0, 8, -6, 10, -8, 0] : [0, 20, -15, 25, -20, 0],
+            y: isMobile ? [0, -15, 10, -18, 12, 0] : [0, -35, 20, -45, 30, 0],
             rotate: [item.rotation, item.rotation + 4, item.rotation - 4, item.rotation + 3, item.rotation],
           }}
           transition={{
             opacity: { duration: 0.8, delay: item.delay },
             scale: { duration: 0.8, delay: item.delay, type: 'spring', stiffness: 100 },
             x: {
-              duration: 14 + Math.random() * 6,
+              duration: isMobile ? 18 + Math.random() * 6 : 14 + Math.random() * 6,
               repeat: Infinity,
               ease: 'easeInOut',
             },
             y: {
-              duration: 15 + Math.random() * 8,
+              duration: isMobile ? 20 + Math.random() * 8 : 15 + Math.random() * 8,
               repeat: Infinity,
               ease: 'easeInOut',
             },
@@ -118,17 +130,17 @@ export default function LanguageClouds({ isForgiven }: LanguageCloudsProps) {
           }}
         >
           {/* Main regional translation text */}
-          <span className="font-fredoka text-base sm:text-lg md:text-xl font-bold text-blue-800/90 select-none tracking-wide text-center drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
+          <span className="font-fredoka text-xs sm:text-base md:text-lg lg:text-xl font-bold text-blue-800/90 select-none tracking-wide text-center drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
             {item.text}
           </span>
           
           {/* Smaller, muted language label */}
-          <span className="font-poppins text-[9px] sm:text-[10px] text-blue-500/60 font-semibold select-none mt-0.5 tracking-wider uppercase">
+          <span className="font-poppins text-[8px] sm:text-[9px] md:text-[10px] text-blue-500/60 font-semibold select-none mt-0.5 tracking-wider uppercase">
             ({item.language})
           </span>
 
           {/* Cute SVG hand-drawn underline accent */}
-          <div className="mt-0.5">
+          <div className="mt-0.5 opacity-60">
             {renderFlourish(item.flourishType)}
           </div>
         </motion.div>

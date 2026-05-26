@@ -29,10 +29,23 @@ export default function ApologyCard({
   onNoClick,
 }: ApologyCardProps) {
 
-  // Dynamic values based on "No" clicks
-  const yesScale = 1 + noClicksCount * 0.25; // increase Yes size
+  // Dynamic mobile screen detection for defensive layout scaling
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Dynamic values based on "No" clicks (capped on mobile to prevent layout overflow)
+  const maxYesScale = isMobile ? 1.55 : 2.5;
+  const yesScale = Math.min(maxYesScale, 1 + noClicksCount * (isMobile ? 0.15 : 0.25));
+  
   const noScale = Math.max(0, 1 - noClicksCount * 0.15); // decrease No size until 0
-  const pleaTextSizeFactor = 1 + noClicksCount * 0.12; // increase pleading text size
+  
+  const maxTextScale = isMobile ? 1.25 : 1.7;
+  const pleaTextSizeFactor = Math.min(maxTextScale, 1 + noClicksCount * (isMobile ? 0.06 : 0.12));
   
   // Decide what primary prompt message to show
   const currentPrompt = noClicksCount === 0 
@@ -109,13 +122,13 @@ export default function ApologyCard({
               </motion.div>
             </div>
 
-            {/* Buttons Row with premium glossy 3D buttons (Reference Match) */}
-            <div className="flex flex-row items-center justify-center gap-6 w-full min-h-[120px] px-4">
-              {/* YES BUTTON (Glossy 3D Blue) */}
+            {/* Buttons Row with premium glossy 3D buttons (Reference Match & Responsive) */}
+            <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 w-full min-h-[120px] px-2 sm:px-4">
+              {/* YES BUTTON (Glossy 3D Blue - Responsive padded) */}
               <motion.button
                 id="btn-yes"
                 onClick={onForgive}
-                className="btn-3d-blue flex items-center justify-center gap-2 text-white font-fredoka font-bold rounded-full py-3 px-9 text-xl sm:text-2xl cursor-pointer duration-200 select-none"
+                className="btn-3d-blue flex items-center justify-center gap-1.5 sm:gap-2 text-white font-fredoka font-bold rounded-full py-2.5 px-6 sm:py-3 sm:px-9 text-lg sm:text-2xl cursor-pointer duration-200 select-none"
                 style={{
                   transformOrigin: 'center',
                 }}
@@ -128,15 +141,15 @@ export default function ApologyCard({
                   damping: 14,
                 }}
               >
-                <span className="text-xl sm:text-2xl select-none">💙</span> Yes
+                <span className="text-lg sm:text-2xl select-none">💙</span> Yes
               </motion.button>
 
-              {/* NO BUTTON (Glossy 3D White) */}
+              {/* NO BUTTON (Glossy 3D White - Responsive padded) */}
               {noScale > 0.05 && (
                 <motion.button
                   id="btn-no"
                   onClick={onNoClick}
-                  className="btn-3d-white text-blue-700/90 font-fredoka font-bold rounded-full py-3 px-9 text-xl sm:text-2xl cursor-pointer duration-200 select-none"
+                  className="btn-3d-white text-blue-700/90 font-fredoka font-bold rounded-full py-2.5 px-6 sm:py-3 sm:px-9 text-lg sm:text-2xl cursor-pointer duration-200 select-none"
                   style={{
                     transformOrigin: 'center',
                   }}
