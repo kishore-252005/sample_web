@@ -14,7 +14,7 @@ const APOLOGY_MESSAGES = [
   "please ma 🥺",
   "please please ma... 😭",
   "I won't do it again, promise! 🤞🩵",
-  "Naaikutty, look at my droopy ears... 🧸",
+  "Please Naaikutty... 🧸",
   "I'll buy you all your favorite snacks! 🍫✨",
   "My days are dark without your smiles... 🌌",
   "Don't be angry anymore, pretty please? 🙏",
