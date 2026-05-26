@@ -173,16 +173,7 @@ export default function App() {
         </defs>
       </svg>
 
-      {/* Header element */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-center z-10 w-full px-4 mb-2"
-      >
-        <span className="font-fredoka text-[13px] bg-white/40 dark:bg-white/10 border border-white/50 px-4 py-1.5 rounded-full text-blue-600/90 font-bold shadow-xs backdrop-blur-xs tracking-wide">
-          🩵 Besties Forever 🩵
-        </span>
-      </motion.header>
+
 
       {/* Main Apology Interactive Card Section */}
       <main className="w-full flex-grow flex items-center justify-center z-10 relative">
