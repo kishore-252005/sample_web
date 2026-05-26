@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&family=Fredoka:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", "Inter", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-fredoka: "Fredoka", sans-serif;
+  --font-cursive: "Caveat", cursive;
+}
+
+body {
+  background-color: #e0f2fe;
+  font-family: var(--font-poppins);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom 3D Glossy Buttons matching reference */
+.btn-3d-blue {
+  background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 4px 0 #1d4ed8,
+    0 6px 8px rgba(37, 99, 235, 0.35);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  transition: all 0.15s ease-out;
+}
+
+.btn-3d-blue:active {
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 1px 0 #1d4ed8,
+    0 2px 4px rgba(37, 99, 235, 0.35);
+  transform: translateY(3px);
+}
+
+.btn-3d-white {
+  background: linear-gradient(180deg, #ffffff 0%, #f3f4f6 60%, #e5e7eb 100%);
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 4px 0 #d1d5db,
+    0 6px 8px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.15s ease-out;
+}
+
+.btn-3d-white:active {
+  box-shadow: 
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 1px 0 #d1d5db,
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(3px);
+}
+
+/* Hanging String Swing Animation */
+@keyframes swing {
+  0% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+  100% { transform: rotate(-3deg); }
+}
+
+.animate-swing {
+  transform-origin: top center;
+  animation: swing 6s ease-in-out infinite;
+}
+
+.animate-swing-delayed {
+  transform-origin: top center;
+  animation: swing 8s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* Star twinkle animation */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+

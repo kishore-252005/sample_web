@@ -1,0 +1,6 @@
+{
+  "name": "Apology to Naaikutty",
+  "description": "A cute emotional apology webpage with a soft pastel baby blue theme, floating hearts, translations of Sorry, and an interactive forgiveness button flow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
